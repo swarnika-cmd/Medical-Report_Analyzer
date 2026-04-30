@@ -1,0 +1,79 @@
+parse_report_task:
+  description: >
+    Read and extract ALL medical data from the uploaded medical report image
+    located at: {image_path}
+
+    Use the Medical Report Image Reader tool to process the image. Pass the
+    exact image path: {image_path}
+
+    Extract the following information:
+    - Patient name and details (if visible)
+    - Date of the report
+    - All test names with their measured values, units, and reference ranges
+    - Any flags or indicators (High, Low, Normal)
+    - The lab or hospital name (if visible)
+
+    Present the extracted data in a clear, structured format. Do NOT miss any
+    test result. If a value cannot be read clearly, note that.
+  expected_output: >
+    A structured list of ALL extracted medical test results including:
+    - Test Name
+    - Measured Value with Unit
+    - Reference Range
+    - Status (High / Low / Normal)
+    Along with patient details and report metadata if available.
+  agent: report_parser
+
+analyze_health_task:
+  description: >
+    Analyze the extracted medical report data and provide a detailed health assessment.
+
+    For each test result:
+    1. Determine if the value is within normal range, borderline, or abnormal
+    2. Explain what each abnormal value indicates about the patient's health
+    3. Identify what nutrients, vitamins, or minerals the patient may be lacking
+    4. Identify any values that are too high and what that could mean
+    5. Look for patterns across multiple results that could indicate underlying conditions
+
+    Categorize ALL findings into:
+    - 🔴 CRITICAL: Values that need immediate medical attention
+    - 🟡 CONCERNING: Values outside normal range but not immediately dangerous
+    - 🟢 NORMAL: Values that are within healthy range
+
+    Be thorough and consider how different test values relate to each other.
+  expected_output: >
+    A detailed health analysis with:
+    - Categorized findings (Critical, Concerning, Normal) with emojis
+    - What each abnormal value means for the patient's health
+    - Identified deficiencies (what the patient is lacking)
+    - Identified excesses (what is too high)
+    - Potential underlying conditions suggested by the pattern of results
+  agent: health_analyst
+
+generate_summary_task:
+  description: >
+    Create a patient-friendly health summary report based on the complete analysis.
+
+    The report MUST be:
+    - Written in simple, non-technical language that anyone can understand
+    - Organized with clear sections and visual formatting
+    - Actionable with specific dietary and lifestyle recommendations
+    - Warm and reassuring in tone
+
+    Include these sections:
+    1. 📊 Overview - A brief summary of overall health status
+    2. ✅ What's Looking Great - Tests that are in normal range (celebrate the wins!)
+    3. ⚠️ Areas of Concern - What needs attention, explained in simple language
+    4. 🥗 What You Might Be Lacking - Nutrient/vitamin deficiencies with specific food sources
+    5. 🍽️ Dietary Recommendations - Specific foods to eat more of and foods to reduce
+    6. 🏃 Lifestyle Recommendations - Exercise, sleep, hydration, and stress management tips
+    7. 🩺 Suggested Follow-ups - What tests or doctor visits to consider next
+    8. ⚕️ Disclaimer - Remind that this is informational, not medical advice
+  expected_output: >
+    A comprehensive, patient-friendly health report in markdown format that:
+    - Uses simple language with medical terms explained in parentheses
+    - Includes specific food and lifestyle recommendations
+    - Is well formatted with emojis and clear sections for easy reading
+    - Includes a medical disclaimer
+    Formatted as clean markdown without code block markers.
+  agent: health_advisor
