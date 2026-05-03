@@ -1,27 +1,15 @@
 parse_report_task:
   description: >
-    Read and extract ALL medical data from the uploaded medical report image
-    located at: {image_path}
-
-    Use the Medical Report Image Reader tool to process the image. Pass the
-    exact image path: {image_path}
-
-    Extract the following information:
-    - Patient name and details (if visible)
-    - Date of the report
-    - All test names with their measured values, units, and reference ranges
-    - Any flags or indicators (High, Low, Normal)
-    - The lab or hospital name (if visible)
-
-    Present the extracted data in a clear, structured format. Do NOT miss any
-    test result. If a value cannot be read clearly, note that.
+    You MUST extract data from the image located exactly at: {image_path}
+    
+    CRITICAL INSTRUCTIONS: 
+    1. You CANNOT complete this task without executing the `Medical Report Image Reader` tool. 
+    2. You MUST pass the exact {image_path} to the tool. 
+    3. You MUST wait for the tool to return the JSON payload. 
+    4. Do NOT generate a generic conversational response or an apology letter under any circumstances.
+    5. If the tool fails, output the exact error message the tool gives you.
   expected_output: >
-    A structured list of ALL extracted medical test results including:
-    - Test Name
-    - Measured Value with Unit
-    - Reference Range
-    - Status (High / Low / Normal)
-    Along with patient details and report metadata if available.
+    A strict, raw JSON object containing the extracted patient information, report details, and test results. Do not include markdown formatting or conversational text.
   agent: report_parser
 
 analyze_health_task:
